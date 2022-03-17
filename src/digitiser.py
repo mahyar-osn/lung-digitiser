@@ -17,7 +17,7 @@ class ProgramArguments(object):
         self.output_dir = None
 
 
-def sample_groups(config, cmgui):
+def sample_groups(config: dict, cmgui: str) -> None:
     for subject in config["subjects"]:
         subject_path = os.path.join(config["root"], config["dataset"], subject, config["volume"], config["sub_dir"])
         if os.path.exists(subject_path):
@@ -35,13 +35,16 @@ def sample_groups(config, cmgui):
             os.remove(__script__)
 
 
-def write_points(config, output_dir):
+def write_points(config: dict, output_dir: str) -> None:
     for subject in config["subjects"]:
         subject_path = os.path.join(config["root"], config["dataset"], subject, config["volume"], config["sub_dir"])
         file_name = "Left_points.exnode"
         file_path = os.path.join(subject_path, file_name)
 
         if os.path.exists(subject_path):
+
+            print(f"Subject: {subject}")
+
             # read the digitised file
             point_dict = load(file_path, file_name)
             cls = point_dict["group"]
