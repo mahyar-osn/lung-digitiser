@@ -41,27 +41,28 @@ def write_points(config, output_dir):
         file_name = "Left_points.exnode"
         file_path = os.path.join(subject_path, file_name)
 
-        # read the digitised file
-        point_dict = load(file_path, file_name)
-        cls = point_dict["group"]
-        coordinates = point_dict["values"]
+        if os.path.exists(subject_path):
+            # read the digitised file
+            point_dict = load(file_path, file_name)
+            cls = point_dict["group"]
+            coordinates = point_dict["values"]
 
-        # write the digitised coordinates in the appropriate format needed for machine learning
-        points_dir = os.path.join(output_dir, "points")
-        if not os.path.exists(points_dir):
-            os.makedirs(points_dir)
-        points_path = os.path.join(points_dir, f"{subject}.pts")
-        with open(points_path, 'w') as points_file:
-            for coordinate in coordinates:
-                points_file.write(f"{coordinate[0]} {coordinate[1]} {coordinate[2]}\n")
-        # write the corresponding groups
-        group_dir = os.path.join(output_dir, "points_label")
-        if not os.path.exists(group_dir):
-            os.makedirs(group_dir)
-        group_path = os.path.join(group_dir, f"{subject}.grp")
-        with open(group_path, 'w') as points_file:
-            for label in cls:
-                points_file.write(f"{label}\n")
+            # write the digitised coordinates in the appropriate format needed for machine learning
+            points_dir = os.path.join(output_dir, "points")
+            if not os.path.exists(points_dir):
+                os.makedirs(points_dir)
+            points_path = os.path.join(points_dir, f"{subject}.pts")
+            with open(points_path, 'w') as points_file:
+                for coordinate in coordinates:
+                    points_file.write(f"{coordinate[0]} {coordinate[1]} {coordinate[2]}\n")
+            # write the corresponding groups
+            group_dir = os.path.join(output_dir, "points_label")
+            if not os.path.exists(group_dir):
+                os.makedirs(group_dir)
+            group_path = os.path.join(group_dir, f"{subject}.grp")
+            with open(group_path, 'w') as points_file:
+                for label in cls:
+                    points_file.write(f"{label}\n")
 
 
 def main():
@@ -72,7 +73,7 @@ def main():
 
         # sample points from the mesh.
         # this command will initiate the cmgui application
-        sample_groups(config, args.cmgui_exe)
+        # sample_groups(config, args.cmgui_exe)
 
         # write out point coordinates and group classes into separate files
         write_points(config, args.output_dir)
