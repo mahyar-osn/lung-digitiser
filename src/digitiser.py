@@ -35,7 +35,7 @@ def sample_groups(config, cmgui):
             os.remove(__script__)
 
 
-def generate_points(config, output_dir):
+def write_points(config, output_dir):
     for subject in config["subjects"]:
         subject_path = os.path.join(config["root"], config["dataset"], subject, config["volume"], config["sub_dir"])
         file_name = "Left_points.exnode"
@@ -70,8 +70,12 @@ def main():
         with open(args.input_config, "r") as config_file:
             config = json.load(config_file)
 
-        # sample_groups(config, args.cmgui_exe)
-        generate_points(config, args.output_dir)
+        # sample points from the mesh.
+        # this command will initiate the cmgui application
+        sample_groups(config, args.cmgui_exe)
+
+        # write out point coordinates and group classes into separate files
+        write_points(config, args.output_dir)
 
 
 def parse_args():
