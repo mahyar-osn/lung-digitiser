@@ -57,7 +57,7 @@ def write_points(config: dict, output_dir: str) -> None:
             points_path = os.path.join(points_dir, f"{subject}.pts")
             with open(points_path, 'w') as points_file:
                 for coordinate in coordinates:
-                    points_file.write(f"{coordinate[0]} {coordinate[1]} {coordinate[2]}\n")
+                    points_file.write(f"{coordinate[0]:.2f} {coordinate[1]:.2f} {coordinate[2]:.2f}\n")
             # write the corresponding groups
             group_dir = os.path.join(output_dir, "points_label")
             if not os.path.exists(group_dir):
@@ -65,6 +65,7 @@ def write_points(config: dict, output_dir: str) -> None:
             group_path = os.path.join(group_dir, f"{subject}.grp")
             with open(group_path, 'w') as points_file:
                 for label in cls:
+                    label = str(int(label)+1)
                     points_file.write(f"{label}\n")
 
 
@@ -76,7 +77,7 @@ def main():
 
         # sample points from the mesh.
         # this command will initiate the cmgui application
-        # sample_groups(config, args.cmgui_exe)
+        sample_groups(config, args.cmgui_exe)
 
         # write out point coordinates and group classes into separate files
         write_points(config, args.output_dir)
