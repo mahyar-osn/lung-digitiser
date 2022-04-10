@@ -27,7 +27,10 @@ def get_groups(region: Region) -> dict:
         field_cache = field_module.createFieldcache()
         coordinate_field = field_module.findFieldByName("coordinates")
         finite_element_field = coordinate_field.castFiniteElement()
-        assert finite_element_field.isValid() and (finite_element_field.getNumberOfComponents() == 3)
+        try:
+            assert (finite_element_field.isValid()) and (finite_element_field.getNumberOfComponents() == 3)
+        except AssertionError:
+            return {}
 
         groups = get_group_list(field_module)
         nodes = field_module.findNodesetByFieldDomainType(Field.DOMAIN_TYPE_NODES)

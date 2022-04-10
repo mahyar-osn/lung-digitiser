@@ -47,6 +47,8 @@ def write_points(config: dict, output_dir: str) -> None:
 
             # read the digitised file
             point_dict = load(file_path, file_name)
+            if not point_dict:
+                continue
             cls = point_dict["group"]
             coordinates = point_dict["values"]
 
@@ -54,7 +56,7 @@ def write_points(config: dict, output_dir: str) -> None:
             points_dir = os.path.join(output_dir, "points")
             if not os.path.exists(points_dir):
                 os.makedirs(points_dir)
-            points_path = os.path.join(points_dir, f"{subject}.pts")
+            points_path = os.path.join(points_dir, f"{subject}_{config['volume']}.pts")
             with open(points_path, 'w') as points_file:
                 for coordinate in coordinates:
                     points_file.write(f"{coordinate[0]:.2f} {coordinate[1]:.2f} {coordinate[2]:.2f}\n")
@@ -62,7 +64,7 @@ def write_points(config: dict, output_dir: str) -> None:
             group_dir = os.path.join(output_dir, "points_label")
             if not os.path.exists(group_dir):
                 os.makedirs(group_dir)
-            group_path = os.path.join(group_dir, f"{subject}.grp")
+            group_path = os.path.join(group_dir, f"{subject}_{config['volume']}.grp")
             with open(group_path, 'w') as points_file:
                 for label in cls:
                     label = str(int(label)+1)
@@ -77,7 +79,7 @@ def main():
 
         # sample points from the mesh.
         # this command will initiate the cmgui application
-        sample_groups(config, args.cmgui_exe)
+        # sample_groups(config, args.cmgui_exe)
 
         # write out point coordinates and group classes into separate files
         write_points(config, args.output_dir)
