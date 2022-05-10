@@ -3,6 +3,8 @@ import json
 import argparse
 import subprocess
 
+from typing import Dict
+
 from loguru import logger
 
 from src.cmgui import left_lung_command
@@ -20,7 +22,7 @@ class ProgramArguments(object):
 
 
 @logger.catch
-def sample_groups(config: dict, cmgui: str) -> None:
+def sample_groups(config: Dict, cmgui: str) -> None:
     for subject in config["subjects"]:
         subject_path = os.path.join(config["root"], config["dataset"], subject, config["volume"], config["sub_dir"])
         if os.path.exists(subject_path):
@@ -39,7 +41,7 @@ def sample_groups(config: dict, cmgui: str) -> None:
 
 
 @logger.catch
-def write_points(config: dict, output_dir: str) -> None:
+def write_points(config: Dict, output_dir: str) -> None:
     for subject in config["subjects"]:
         subject_path = os.path.join(config["root"], config["dataset"], subject, config["volume"], config["sub_dir"])
         file_name = "Left_points.exnode"
